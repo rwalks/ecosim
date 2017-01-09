@@ -1,0 +1,9 @@
+[0m[[0minfo[0m] [0mRunning com.marqod.biosphere.GameApp [0m
+[0m[[0mdebug[0m] [0mWaiting for threads to exit or System.exit to be called.[0m
+[0m[[0mdebug[0m] [0m  Classpath:[0m
+[0m[[0mdebug[0m] [0m	/Users/ryan.walker/projects/ecosim/target/scala-2.10/classes[0m
+[0m[[0mdebug[0m] [0m	/Users/ryan.walker/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.10.3.jar[0m
+[0m[[0mdebug[0m] [0m	/Users/ryan.walker/.ivy2/cache/org.scala-lang/scala-swing/jars/scala-swing-2.10.3.jar[0m
+[0m[[0mdebug[0m] [0mWaiting for thread run-main-0 to terminate.[0m
+[0m[[0mdebug[0m] [0m	Thread run-main-0 exited.[0m
+[0m[[0mdebug[0m] [0mWaiting for thread AWT-EventQueue-0 to terminate.[0m
