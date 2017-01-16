@@ -28,7 +28,7 @@ class GameEngine extends Config{
 
   def updateEntities() = {
     gameState.beasts = gameState.beasts.filter { a =>
-      a.update() == true
+      a.update(gameState) == true
     }
   }
 

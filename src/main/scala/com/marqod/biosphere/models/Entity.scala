@@ -1,17 +1,26 @@
 package com.marqod.biosphere.models
 
-import com.marqod.biosphere.utils.{EntityPosition, EntityRotation, Vector2}
-
-import scala.collection.mutable.ArrayBuffer
+import com.marqod.biosphere.engine.GameState
+import com.marqod.biosphere.utils.{CapVector, EntityPosition, EntityRotation, Vector2}
 
 /**
   * Created by ryan.walker on 10/29/16.
   */
 abstract class Entity(val position: EntityPosition) {
-  val rotation: EntityRotation
-  val velocity: Vector2 = new Vector2(1,0)
+  val maxSpeed: Double
+  val rotation: EntityRotation = new EntityRotation(0)
+  val velocity: CapVector = new CapVector(0,0,0,maxSpeed)
 
-  def update(): Boolean
+  def update(gameState: GameState): Boolean
+
+  def setVelocity(dx: Double, dy: Double) = {
+    val scaler = (Math.abs(dx) + Math.abs(dy)) / maxSpeed
+    if ( scaler > 1) {
+      this.velocity.set(dx / scaler, dy / scaler)
+    } else {
+      this.velocity.set(dx,dy)
+    }
+  }
 }
 
 case class EntityReturn(alive: Boolean)

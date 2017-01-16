@@ -9,8 +9,7 @@ class Vector2(var x: Double, var y: Double) {
   }
 
   def set(target: Vector2): Vector2 = {
-    x = target.x
-    y = target.y
+    this.set(target.x, target.y)
     this
   }
 
@@ -54,6 +53,10 @@ class Vector2(var x: Double, var y: Double) {
   def distance(ox: Double, oy: Double): Double = {
     Math.sqrt(Math.pow((ox - x),2)+Math.pow((oy - y),2))
   }
+
+  def distance(v2: Vector2): Double = {
+    Math.sqrt(Math.pow((v2.x - x),2)+Math.pow((v2.y - y),2))
+  }
 }
 
 object Vector2 {
@@ -63,14 +66,11 @@ object Vector2 {
 }
 
 class EntityPosition(ox: Double, oy: Double) extends Vector2(ox,oy) with Utils with Config {
+
   override def set(tx: Double, ty: Double): Vector2 = {
     x = clamp(tx, 0, WORLD_SIZE.x)
     y = clamp(ty, 0, WORLD_SIZE.y)
     this
-  }
-
-  override def set(vec: Vector2): Vector2 = {
-    this.set(x + vec.x, y + vec.y)
   }
 
   def onBorder(): Boolean = {
@@ -145,6 +145,14 @@ case class CameraZoom(init: Double = 0.0) extends Utils {
 
   def update(d: Double) = {
     zoom = clamp(zoom + d, 0.1, 1.0)
+  }
+}
+
+case class CapVector(vx: Double, vy: Double, min: Double, max: Double) extends Vector2(vx,vy) with Utils {
+  override def set(tx: Double, ty: Double): Vector2 = {
+    x = clamp(tx, min, max)
+    y = clamp(ty, min, max)
+    this
   }
 }
 
