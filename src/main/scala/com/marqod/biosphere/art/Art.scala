@@ -11,14 +11,10 @@ import scala.swing.Graphics2D
   */
 abstract class Art[T <: Entity] {
 
-  def draw(g: Graphics2D, entity: T, camera: Camera) = {
-    val dX = entity.position.x - camera.offset.x
-    val dY = entity.position.y - camera.offset.y
+  val size: Vector2
 
-    val gCon: Graphics2D = g.create().asInstanceOf[Graphics2D]
-    gCon.translate(dX,dY)
-    drawClass(gCon, entity)
-    gCon.dispose()
+  def draw(g: Graphics2D, entity: T) = {
+    drawClass(g, entity)
   }
 
   def drawClass(g: Graphics2D, entity: T): Unit

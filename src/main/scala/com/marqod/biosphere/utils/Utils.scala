@@ -150,8 +150,8 @@ case class CameraZoom(init: Double = 0.0) extends Utils {
 
 case class CapVector(vx: Double, vy: Double, min: Double, max: Double) extends Vector2(vx,vy) with Utils {
   override def set(tx: Double, ty: Double): Vector2 = {
-    x = clamp(tx, min, max)
-    y = clamp(ty, min, max)
+    x = clamp(Math.abs(tx), min, max) * (if (tx >= 0) 1 else -1)
+    y = clamp(Math.abs(ty), min, max) * (if (ty >= 0) 1 else -1)
     this
   }
 }

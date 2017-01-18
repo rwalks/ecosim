@@ -11,11 +11,15 @@ import scala.swing.Graphics2D
   */
 class TileArt extends Config {
 
-  def draw(g: Graphics2D, tile: Tile, camera: Camera) = {
-    val tsX = TILE_SIZE.x * camera.zoom.zoom
-    val tsY = TILE_SIZE.y * camera.zoom.zoom
-    val dx = (tile.x * tsX) - camera.offset.x
-    val dy = (tile.y * tsY) - camera.offset.y
+  val size = TILE_SIZE
+
+  def draw(g: Graphics2D, tile: Tile) = {
+    drawClass(g, tile)
+  }
+
+  def drawClass(g: Graphics2D, tile: Tile) = {
+    val dx = tile.x * size.x
+    val dy = tile.y * size.y
     val color = tile.state match {
       case TileState.water => Colors.brightBlue
       case TileState.grass => Colors.brightGreen
@@ -23,7 +27,7 @@ class TileArt extends Config {
       case _ => Colors.black
     }
     g.setColor(color)
-    g.fillRect(dx.toInt,dy.toInt,tsX.toInt,tsY.toInt)
+    g.fillRect(dx.toInt,dy.toInt,size.x.toInt,size.y.toInt)
   }
 
 }

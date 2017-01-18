@@ -19,14 +19,11 @@ class GraphicsEngine(engine: GameEngine, canvas: Canvas) extends Config with Art
 
   def drawScene(g: Graphics2D) = {
     camera.update(engine.gameState.controlState)
-    //water
-  //  g.setColor(Colors.brightBlue)
-  //  g.fillRect(0,0,CANVAS_SIZE.x.toInt,CANVAS_SIZE.y.toInt)
-    //island
+    g.translate(-camera.offset.x, -camera.offset.y)
+    g.scale(camera.zoom.zoom,camera.zoom.zoom)
     drawTiles(g)
-    //entities
     engine.gameState.beasts.foreach { i =>
-      unitArt.draw(g,i,camera)
+      unitArt.draw(g,i)
     }
 
   }
@@ -46,7 +43,7 @@ class GraphicsEngine(engine: GameEngine, canvas: Canvas) extends Config with Art
       if ( x < engine.gameState.tiles.length) {
         oy to dy foreach { y =>
           if ( y < engine.gameState.tiles(x).length) {
-            tileArt.draw(g, engine.gameState.tiles(x)(y), camera)
+            tileArt.draw(g, engine.gameState.tiles(x)(y))
           }
         }
       }

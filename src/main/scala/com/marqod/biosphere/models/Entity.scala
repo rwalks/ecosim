@@ -9,7 +9,7 @@ import com.marqod.biosphere.utils.{CapVector, EntityPosition, EntityRotation, Ve
 abstract class Entity(val position: EntityPosition) {
   val maxSpeed: Double
   val rotation: EntityRotation = new EntityRotation(0)
-  val velocity: CapVector = new CapVector(0,0,0,maxSpeed)
+  val velocity: CapVector
 
   def update(gameState: GameState): Boolean
 
