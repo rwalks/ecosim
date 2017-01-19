@@ -13,15 +13,24 @@ class GameState extends Config {
 
   val controlState = ControlState()
 
-  val f1 = new Fish(EntityPosition(WORLD_SIZE.x/2,WORLD_SIZE.y/2))
-  val f2 = new Fish(EntityPosition(420,300))
-  //var beasts = List[Entity](f1, f2)
-  var beasts = 1 to 20 map { _ =>
-    new Fish(EntityPosition(WORLD_SIZE.x/2,WORLD_SIZE.y/2))
-  }
-
   val island = new Island()
   val tiles: Array[Array[Tile]] = island.generateTiles()
+
+  var beasts = 1 to 8000 map { _ =>
+    new Fish(getWaterSpawn())
+  }
+
+  def getTile(pos: EntityPosition): Tile = {
+    tiles(Math.floor(pos.x / TILE_SIZE.x).toInt)(Math.floor(pos.y / TILE_SIZE.y).toInt)
+  }
+
+  def getWaterSpawn(): EntityPosition = {
+    val pos = EntityPosition(
+      WORLD_SIZE.x * Math.random(),
+      WORLD_SIZE.y * Math.random()
+    )
+    return { if (getTile(pos).state == TileState.water) pos else getWaterSpawn() }
+  }
 
 }
 

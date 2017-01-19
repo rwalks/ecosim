@@ -22,8 +22,26 @@ class Camera extends Config{
 
   def setScroll(point: Vector2, dir: Int) = {
     dir match {
-      case 1 => zoom.update(0.01)
-      case _ => zoom.update(-0.01)
+      case 1 => {
+        val dScale = 0.01
+        zoom.update(dScale)
+        if ( zoom.zoom < 1) {
+          offset.move(
+            -(CANVAS_SIZE.x / 2) * dScale,
+            -(CANVAS_SIZE.y / 2) * dScale
+          )
+        }
+      }
+      case _ => {
+        val dScale = -0.01
+        zoom.update(dScale)
+        if ( zoom.zoom > zoom.minZoom) {
+          offset.move(
+            (CANVAS_SIZE.x / 2) * dScale,
+            (CANVAS_SIZE.y / 2) * dScale
+          )
+        }
+      }
     }
     offset.updateZoom(zoom)
   }

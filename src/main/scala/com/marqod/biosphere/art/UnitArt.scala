@@ -16,7 +16,7 @@ class UnitArt extends Art[Entity] with Config {
   def drawClass(g: Graphics2D, p: Entity) = {
     val dX = p.position.x
     val dY = p.position.y
-    g.setColor(Colors.red)
+    g.setColor(Colors.white)
     g.fillRect(dX.toInt,dY.toInt,size.x.toInt,size.y.toInt)
   }
 

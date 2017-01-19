@@ -142,9 +142,10 @@ trait Utils {
 
 case class CameraZoom(init: Double = 0.0) extends Utils {
   var zoom: Double = init
+  val minZoom = 0.1
 
   def update(d: Double) = {
-    zoom = clamp(zoom + d, 0.1, 1.0)
+    zoom = clamp(zoom + d, minZoom, 1.0)
   }
 }
 
