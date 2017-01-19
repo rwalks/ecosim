@@ -16,9 +16,15 @@ class GameState extends Config {
   val island = new Island()
   val tiles: Array[Array[Tile]] = island.generateTiles()
 
-  var beasts = 1 to 8000 map { _ =>
+  var fish = 1 to 800 map { _ =>
     new Fish(getWaterSpawn())
   }
+
+  var sheep = 1 to 400 map { _ =>
+    new Sheep(getLandSpawn())
+  }
+
+  var beasts = fish ++ sheep
 
   def getTile(pos: EntityPosition): Tile = {
     tiles(Math.floor(pos.x / TILE_SIZE.x).toInt)(Math.floor(pos.y / TILE_SIZE.y).toInt)
@@ -30,6 +36,14 @@ class GameState extends Config {
       WORLD_SIZE.y * Math.random()
     )
     return { if (getTile(pos).state == TileState.water) pos else getWaterSpawn() }
+  }
+
+  def getLandSpawn(): EntityPosition = {
+    val pos = EntityPosition(
+      WORLD_SIZE.x * Math.random(),
+      WORLD_SIZE.y * Math.random()
+    )
+    return { if (getTile(pos).state != TileState.water) pos else getLandSpawn() }
   }
 
 }

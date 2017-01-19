@@ -22,8 +22,11 @@ class GraphicsEngine(engine: GameEngine, canvas: Canvas) extends Config with Art
     g.translate(-camera.offset.x, -camera.offset.y)
     g.scale(camera.zoom.zoom,camera.zoom.zoom)
     drawTiles(g)
-    engine.gameState.beasts.foreach { i =>
-      unitArt.draw(g,i)
+    engine.gameState.fish.foreach { i =>
+      fishArt.draw(g,i)
+    }
+    engine.gameState.sheep.foreach { i =>
+      sheepArt.draw(g,i)
     }
 
   }

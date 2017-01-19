@@ -22,6 +22,8 @@ abstract class Art[T <: Entity] {
 }
 
 trait ArtHolder {
-  val unitArt = new UnitArt()
+  val fishArt = new FishArt()
+  val sheepArt = new SheepArt()
   val tileArt = new TileArt()
+
 }
