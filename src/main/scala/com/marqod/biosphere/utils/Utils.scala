@@ -157,3 +157,36 @@ case class CapVector(vx: Double, vy: Double, min: Double, max: Double) extends V
   }
 }
 
+case class Gauge(init: Double, min: Double, max: Double, delta: Double) {
+  var current = init
+
+  def drain(amt: Double): Boolean = {
+    if ( current < amt) {
+      return false
+    } else {
+      current -= amt
+      return true
+    }
+  }
+
+  def fill(amt: Double) = {
+    current = Math.min(current + amt, max)
+  }
+
+  def step() = {
+    fill(delta)
+  }
+
+  def empty(): Boolean = {
+    current <= min
+  }
+
+  def full(): Boolean = {
+    current >= max
+  }
+
+  def percentFull(): Double = {
+    current / max
+  }
+}
+

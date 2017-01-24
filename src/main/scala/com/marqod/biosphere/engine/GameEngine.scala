@@ -13,6 +13,7 @@ class GameEngine extends Config{
       case msg: InputMessage => setInput(msg)
       case _ =>
     }
+    updateTiles()
     updateEntities()
   }
 
@@ -23,6 +24,14 @@ class GameEngine extends Config{
       case ControlInput.LEFT => gameState.controlState.left = msg.active
       case ControlInput.RIGHT => gameState.controlState.right = msg.active
       case _ =>
+    }
+  }
+
+  def updateTiles() = {
+    gameState.tiles.foreach { x =>
+      x.foreach { tile =>
+        tile.update(gameState)
+      }
     }
   }
 

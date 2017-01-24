@@ -2,6 +2,7 @@ package com.marqod.biosphere.graphics
 
 import com.marqod.biosphere.art.ArtHolder
 import com.marqod.biosphere.engine.{Camera, GameEngine}
+import com.marqod.biosphere.models.{Fish, Sheep}
 import com.marqod.biosphere.utils.{Colors, Config, Vector2}
 
 import scala.swing.Graphics2D
@@ -22,13 +23,12 @@ class GraphicsEngine(engine: GameEngine, canvas: Canvas) extends Config with Art
     g.translate(-camera.offset.x, -camera.offset.y)
     g.scale(camera.zoom.zoom,camera.zoom.zoom)
     drawTiles(g)
-    engine.gameState.fish.foreach { i =>
-      fishArt.draw(g,i)
+    engine.gameState.beasts.foreach { b =>
+      b match {
+        case f: Fish => fishArt.draw(g,f)
+        case s: Sheep => sheepArt.draw(g,s)
+      }
     }
-    engine.gameState.sheep.foreach { i =>
-      sheepArt.draw(g,i)
-    }
-
   }
 
   def scrollEvent(screenPos: Vector2, scroll: Int) = {

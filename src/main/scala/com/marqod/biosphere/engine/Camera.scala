@@ -7,9 +7,9 @@ import com.marqod.biosphere.utils.{CameraPosition, CameraZoom, Config, Vector2}
   */
 class Camera extends Config{
 
-  val offset: CameraPosition = CameraPosition(WORLD_SIZE.x/2,WORLD_SIZE.y/2)
+  val offset: CameraPosition = CameraPosition(0,0)//WORLD_SIZE.x/2,WORLD_SIZE.y/2)
 
-  val zoom: CameraZoom = CameraZoom(1.0)
+  val zoom: CameraZoom = CameraZoom(0.28)
 
   def update(controls: ControlState) = {
     val dx = ((controls.left match { case true => 1; case false => 0 }) * -CAMERA_SPEED.x) +

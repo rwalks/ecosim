@@ -14,20 +14,30 @@ class GameState extends Config {
   val controlState = ControlState()
 
   val island = new Island()
-  val tiles: Array[Array[Tile]] = island.generateTiles()
+  val tiles: Array[ArrayBuffer[Tile]] = island.generateTiles()
 
-  var fish = 1 to 800 map { _ =>
+  val fishCount = 400
+  var fish = 1 to fishCount map { _ =>
     new Fish(getWaterSpawn())
   }
 
-  var sheep = 1 to 400 map { _ =>
+  val sheepCount = 400
+  var sheep = 1 to sheepCount map { _ =>
     new Sheep(getLandSpawn())
   }
+
 
   var beasts = fish ++ sheep
 
   def getTile(pos: EntityPosition): Tile = {
     tiles(Math.floor(pos.x / TILE_SIZE.x).toInt)(Math.floor(pos.y / TILE_SIZE.y).toInt)
+  }
+
+  def getTileOpt(x: Int, y: Int): Option[Tile] = {
+    tiles.lift(x) match {
+      case Some( xRow: ArrayBuffer[Tile] ) => xRow.lift(y)
+      case _ => None
+    }
   }
 
   def getWaterSpawn(): EntityPosition = {
