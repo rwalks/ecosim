@@ -39,14 +39,14 @@ abstract class TileResource {
 case class AlgaeResource() extends TileResource {
   val resource = ResourceType.algae
   val maxResource = 100.0
-  val resourceRegen = 1.5
+  val resourceRegen = 0.5
   val resourceAmount = new Gauge(0,0,maxResource,resourceRegen)
 }
 
 case class GrassResource() extends TileResource {
   val resource = ResourceType.grass
   val maxResource = 100.0
-  val resourceRegen = 1.3
+  val resourceRegen = 0.3
   val resourceAmount = new Gauge(0,0,maxResource,resourceRegen)
 }
 

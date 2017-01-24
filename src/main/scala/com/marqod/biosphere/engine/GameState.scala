@@ -21,7 +21,7 @@ class GameState extends Config {
     new Fish(getWaterSpawn())
   }
 
-  val sheepCount = 400
+  val sheepCount = 50
   var sheep = 1 to sheepCount map { _ =>
     new Sheep(getLandSpawn())
   }

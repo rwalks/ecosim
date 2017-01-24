@@ -162,6 +162,7 @@ case class Gauge(init: Double, min: Double, max: Double, delta: Double) {
 
   def drain(amt: Double): Boolean = {
     if ( current < amt) {
+      current = min
       return false
     } else {
       current -= amt
@@ -170,7 +171,7 @@ case class Gauge(init: Double, min: Double, max: Double, delta: Double) {
   }
 
   def fill(amt: Double) = {
-    current = Math.min(current + amt, max)
+    current = Math.max(min, Math.min(current + amt, max))
   }
 
   def step() = {

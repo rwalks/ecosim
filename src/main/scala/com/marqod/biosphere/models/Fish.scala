@@ -1,7 +1,7 @@
 package com.marqod.biosphere.models
 
 import com.marqod.biosphere.engine.GameState
-import com.marqod.biosphere.utils.{CapVector, EntityPosition, EntityRotation}
+import com.marqod.biosphere.utils.{CapVector, EntityPosition, EntityRotation, Gauge}
 
 /**
   * Created by ryan.walker on 1/8/17.
@@ -10,7 +10,11 @@ class Fish(pos: EntityPosition) extends WaterEntity(pos) {
   val maxSpeed = 1.0
   val velocity: CapVector = new CapVector(0,0,0,maxSpeed)
 
-  val targetRange = 100
+  val food = ResourceType.algae
+  val hunger = new Gauge(100,0,100,-1)
+  val energyCost = 0.1
+
+  val targetRange = 200
 
   def setTarget(gameState: GameState) = {
     target.set(
