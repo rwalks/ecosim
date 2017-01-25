@@ -11,8 +11,8 @@ class Fish(pos: EntityPosition) extends WaterEntity(pos) {
   val velocity: CapVector = new CapVector(0,0,0,maxSpeed)
 
   val food = ResourceType.algae
-  val hunger = new Gauge(100,0,100,-1)
   val energyCost = 0.1
+  val restingEnergy: Double = 0.01
 
   val targetRange = 200
 

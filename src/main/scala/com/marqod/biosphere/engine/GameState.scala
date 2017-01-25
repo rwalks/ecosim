@@ -15,13 +15,22 @@ class GameState extends Config {
 
   val island = new Island()
   val tiles: Array[ArrayBuffer[Tile]] = island.generateTiles()
+println("aging..")
+  1 to 100000 foreach { i =>
+    tiles foreach { xArray =>
+      xArray.foreach { tile =>
+        tile.update(this)
+      }
+    }
+  }
+  println("aging complete")
 
-  val fishCount = 400
+  val fishCount = 100
   var fish = 1 to fishCount map { _ =>
     new Fish(getWaterSpawn())
   }
 
-  val sheepCount = 50
+  val sheepCount = 100
   var sheep = 1 to sheepCount map { _ =>
     new Sheep(getLandSpawn())
   }

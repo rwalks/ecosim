@@ -16,7 +16,7 @@ class TileArt extends Config {
 
 
   val sandImage: Image = ImageIO.read(new File("images/sandTile.png"));
-  val dirtImage: Image = ImageIO.read(new File("images/dirtTile.png"))
+  val dirtImage: Image = ImageIO.read(new File("images/grassTile/dirtTile.png"))
   val grass1Image: Image = ImageIO.read(new File("images/grassTile/grassTile1.png"));
   val grass2Image: Image = ImageIO.read(new File("images/grassTile/grassTile2.png"));
   val grass3Image: Image = ImageIO.read(new File("images/grassTile/grassTile3.png"));
@@ -46,7 +46,7 @@ class TileArt extends Config {
   }
 
   def drawGrass(dX:Int, dY: Int, g: Graphics2D, tile: Tile) = {
-    val gPercent = tile.resource.resourceAmount.percentFull()
+    val gPercent = tile.resource.resourceAmount.current / 100
     val gIndex = Math.floor(gPercent * 10).toInt
     val img = grassImages(gIndex)
     drawImage(dX, dY, g, img)
@@ -62,16 +62,8 @@ class TileArt extends Config {
     g.drawImage(img,dX,dY,size.x.toInt,size.y.toInt,null)
   }
 
-  def grassColor(tile: Tile): Color = {
-    val rPer = tile.resource.resourceAmount.percentFull()
-    val r = 160 - (rPer * 160)
-    val g = 82 + (173 * rPer)
-    val b = 45 - (rPer * 45)
-    new Color(r.toInt, g.toInt, b.toInt)
-  }
-
   def waterColor(tile: Tile): Color = {
-    val rPer = tile.resource.resourceAmount.percentFull()
+    val rPer = tile.resource.resourceAmount.current / 100
     val r = (rPer * 12)
     val g = (120 * rPer)
     val b = 255 - (rPer * 159)

@@ -10,39 +10,45 @@ abstract class Entity(val position: EntityPosition) {
   val maxSpeed: Double
   val rotation: EntityRotation = new EntityRotation(0)
   val velocity: CapVector
-  val target = EntityPosition(0,0)
+  val target = EntityPosition(position.x,position.y)
   var hasMission: Boolean = false
   val minTargetD = 1
 
+  var count = (Math.random() * 100).toInt
+
   val energyCost: Double
   val food: ResourceType.Value
-  val hunger: Gauge
-  val lastFood: EntityPosition = new EntityPosition(position.x,position.y)
-  val hungerThreshold: Double = 0.75
-  val eatAmount: Double = 6.0
-  val restingEnergy: Double = 0.1
+  val hunger = new Gauge(100,0,100,0)
+  val eatThreshold: Double = 0.9
+  val eatAmount: Double = 20.0
+  val eatFactor: Double = 0.5
+  val restingEnergy: Double
 
   def update(gameState: GameState): Boolean = {
+    count += 1
+    findFollowTarget(gameState)
+    eat(gameState)
+    if (validTarget(gameState)) {
+      hasMission = true
+    } else {
+      hasMission = false
+    }
+    energyToMove()
+    isAlive()
+  }
+
+  def findFollowTarget(gameState: GameState) = {
     if ( hasMission == true) {
       if (position.distance(target) <= minTargetD) {
-        hasMission = false
+        setTarget(gameState)
       } else {
         val dx = this.target.x - this.position.x
         val dy = this.target.y - this.position.y
         setVelocity(dx, dy)
       }
     } else {
-      if (hunger.percentFull() < hungerThreshold) {
-        eat(gameState)
-      } else {
-        setTarget(gameState)
-      }
-      if (validTarget(gameState)) {
-        hasMission = true
-      }
+      setTarget(gameState)
     }
-    energyToMove()
-    isAlive()
   }
 
   def isAlive(): Boolean = {
@@ -57,18 +63,12 @@ abstract class Entity(val position: EntityPosition) {
   }
 
   def eat(gameState: GameState) = {
-    val tile = gameState.getTile(position)
-    if (tile.resource.resource == food) {
-      if (tile.resource.resourceAmount.drain(eatAmount)) {
-        hunger.fill(eatAmount)
-        lastFood.set(position)
+    if (hunger.percentFull() < eatThreshold) {
+      val tile = gameState.getTile(position)
+      if (tile.resource.resource == food && tile.resource.resourceAmount.drain(eatAmount)) {
+        hunger.fill(eatAmount * eatFactor)
+        target.set(position)
       }
-    } else {
-     // if (target.magnitude() != 0) {
-     //   target.set(lastFood)
-    //  } else {
-        setTarget(gameState)
-    //  }
     }
   }
 

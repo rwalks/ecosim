@@ -12,9 +12,11 @@ abstract class TileResource {
   val resourceRegen: Double
   val resourceAmount: Gauge
 
+  val node: Boolean = Math.random() < 0.5
+
   def update(x: Int, y: Int, gameState: GameState) = {
     if (!resourceAmount.empty()) {
-      if (resourceAmount.full()) {
+      if (node && resourceAmount.full()) {
         spread(x, y, gameState)
       }
       resourceAmount.step()
@@ -25,7 +27,7 @@ abstract class TileResource {
     val dir = TileDirections.getRandom()
     gameState.getTileOpt(x + dir.x.toInt, y + dir.y.toInt) match {
       case Some(t: Tile) => {
-        if (t.resource.resource == resource) {
+        if (t.resource.resource == resource && t.resource.resourceAmount.empty()) {
           t.resource.resourceAmount.step()
         } else {
           false
@@ -38,15 +40,15 @@ abstract class TileResource {
 
 case class AlgaeResource() extends TileResource {
   val resource = ResourceType.algae
-  val maxResource = 100.0
-  val resourceRegen = 0.5
+  val maxResource = if (node) 100.0 else 20.0 + Math.random() * 60
+  val resourceRegen = 0.01
   val resourceAmount = new Gauge(0,0,maxResource,resourceRegen)
 }
 
 case class GrassResource() extends TileResource {
   val resource = ResourceType.grass
-  val maxResource = 100.0
-  val resourceRegen = 0.3
+  val maxResource = if (node) 100.0 else 20.0 + Math.random() * 60
+  val resourceRegen = 0.01
   val resourceAmount = new Gauge(0,0,maxResource,resourceRegen)
 }
 

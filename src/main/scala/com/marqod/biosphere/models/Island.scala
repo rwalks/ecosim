@@ -41,9 +41,9 @@ class Island extends Config{
 
     paintBeach(tiles)
     //resource seeding
-    val algaeSeeds = 10
+    val algaeSeeds = 20
     spreadAlgae(tiles, algaeSeeds)
-    val grassSeeds = 10
+    val grassSeeds = 40
     spreadGrass(tiles, grassSeeds)
     //
     tiles

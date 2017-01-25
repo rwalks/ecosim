@@ -11,10 +11,10 @@ class Sheep(pos: EntityPosition) extends LandEntity(pos) {
   val velocity: CapVector = new CapVector(0,0,0,maxSpeed)
 
   val food = ResourceType.grass
-  val hunger = new Gauge(100,0,100,-1)
   val energyCost = 0.1
+  val restingEnergy: Double = 0.01
 
-  val targetRange = 200
+  val targetRange = 100
 
   def setTarget(gameState: GameState) = {
     target.set(
