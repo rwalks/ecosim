@@ -35,8 +35,8 @@ class TileArt extends Config {
   }
 
   def drawClass(g: Graphics2D, tile: Tile) = {
-    val dx = (tile.x * size.x).toInt
-    val dy = (tile.y * size.y).toInt
+    val dx = tile.position.x.toInt
+    val dy = tile.position.y.toInt
     tile.state match {
       case TileState.water => drawRect(dx,dy,g,waterColor(tile))
       case TileState.grass => drawGrass(dx,dy,g, tile)

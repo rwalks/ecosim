@@ -11,13 +11,11 @@ import scala.swing.Graphics2D
   */
 abstract class Art[T <: Entity] {
 
-  val size: Vector2
-
   def draw(g: Graphics2D, entity: T) = {
     drawClass(g, entity)
   }
 
-  def drawClass(g: Graphics2D, entity: T): Unit
+  def drawClass(g: Graphics2D, entity: T)
 
 }
 
@@ -25,5 +23,5 @@ trait ArtHolder {
   val fishArt = new FishArt()
   val sheepArt = new SheepArt()
   val tileArt = new TileArt()
-
+  val guiArt= new GuiArt()
 }

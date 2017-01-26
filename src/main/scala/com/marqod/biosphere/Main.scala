@@ -19,11 +19,14 @@ object GameApp extends SimpleSwingApplication with Config {
     val messenger = new MessageCenter()
 
     val canvas = new Canvas {
-      preferredSize = new Dimension(CANVAS_SIZE.x.toInt, CANVAS_SIZE.y.toInt)
+      preferredSize = new Dimension(WINDOW_SIZE.x.toInt, WINDOW_SIZE.y.toInt)
     }
 
-    val graphicsEngine = new GraphicsEngine(gameEngine, canvas)
+    val gui: Gui = new Gui()
+
+    val graphicsEngine = new GraphicsEngine(gameEngine, canvas, gui)
     canvas.graphicsEngine = graphicsEngine
+
 
     contents = new BorderPanel {
       layout(canvas) = Center
@@ -39,13 +42,16 @@ object GameApp extends SimpleSwingApplication with Config {
     }
    */
     listenTo(canvas.mouse.clicks)
+    listenTo(canvas.mouse.moves)
     listenTo(canvas.mouse.wheel)
     listenTo(canvas.keys)
 
     reactions += {
       case MouseClicked(_, point, _, _, _) => {
-        println("CLICKA")
-        println(point)
+        gui.click(Vector2(point.x,point.y))
+      }
+      case MouseMoved(_, point, _) => {
+        gui.setHovers(Vector2(point.x,point.y),gameEngine.gameState,graphicsEngine.camera)
       }
       case KeyPressed(_,ch,_,side) => {
         messenger.keyPress(ch.hashCode())

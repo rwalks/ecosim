@@ -13,8 +13,11 @@ abstract class Entity(val position: EntityPosition) {
   val target = EntityPosition(position.x,position.y)
   var hasMission: Boolean = false
   val minTargetD = 1
+  val size: Vector2 = Vector2(16,16)
 
   var count = (Math.random() * 100).toInt
+
+  var currentTile: Option[Tile] = None
 
   val energyCost: Double
   val food: ResourceType.Value
@@ -34,6 +37,7 @@ abstract class Entity(val position: EntityPosition) {
       hasMission = false
     }
     energyToMove()
+    updateTile(gameState)
     isAlive()
   }
 
@@ -51,8 +55,45 @@ abstract class Entity(val position: EntityPosition) {
     }
   }
 
+  def updateTile(gameState: GameState) = {
+    val newTile = gameState.getTile(position)
+    currentTile match {
+      case Some(t: Tile) =>
+        if ( t != newTile ) {
+          deregisterTile()
+          registerTile(newTile)
+        }
+      case None =>
+        registerTile(newTile)
+    }
+  }
+
+  def pointInsideOf(tPos: EntityPosition): Boolean = {
+    val topLeft: Vector2 = this.topLeft()
+    tPos.x > topLeft.x && tPos.x < topLeft.x + size.x &&
+    tPos.y > topLeft.y && tPos.y < topLeft.y + size.y
+  }
+
+  def registerTile(newTile: Tile) = {
+    currentTile = Some(newTile)
+    newTile.register(this)
+  }
+
+  def deregisterTile() = {
+    currentTile match {
+      case Some(t: Tile) =>
+        t.deregister(this)
+      case None => {}
+    }
+  }
+
   def isAlive(): Boolean = {
-    !hunger.empty()
+    if (hunger.empty()) {
+      deregisterTile()
+      false
+    } else {
+      true
+    }
   }
 
   def energyToMove() = {
@@ -83,6 +124,13 @@ abstract class Entity(val position: EntityPosition) {
     } else {
       this.velocity.set(dx,dy)
     }
+  }
+
+  def topLeft(): Vector2 = {
+    Vector2(
+      position.x - (size.x / 2),
+      position.y - (size.y / 2)
+    )
   }
 }
 
